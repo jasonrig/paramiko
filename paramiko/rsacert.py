@@ -120,7 +120,7 @@ class RSACert(RSAKey):
             data = data[1]
         else:
             data = data[0]
-        return Message(base64.b64decode(data))
+        return Message(base64.b64decode(data.encode('ascii')))
 
     @staticmethod
     def generate(bits, progress_func=None):
