@@ -75,7 +75,10 @@ class RSACert(RSAKey):
     def get_name(self):
         return 'ssh-rsa-cert-v01@openssh.com'
 
-    def asbytes(self):
+    def get_public_key(self):
+        return RSAKey(vals=(self.e, self.n))
+
+    def _message_without_signature(self):
         m = Message()
         m.add_string('ssh-rsa-cert-v01@openssh.com')
         m.add_string(self.nonce)
@@ -91,8 +94,19 @@ class RSACert(RSAKey):
         m.add_string(self.extensions)
         m.add_string(self.reserved)
         m.add_string(self.signature_key)
+        return m
+
+    def _message_with_signature(self):
+        m = self._message_without_signature()
         m.add_string(self.signature)
-        return m.asbytes()
+        return m
+
+    def asbytes(self):
+        return self._message_with_signature.asbytes()
+
+    def verify_certificate_signature(self):
+        return RSAKey(data=self.signature_key).verify_ssh_sig(self._message_without_signature().asbytes(),
+                                                              Message(self.signature))
 
     def _load_cert_from_file(self, cert_file):
         with open(cert_file, 'r') as f:
@@ -110,4 +124,22 @@ class RSACert(RSAKey):
 
     @staticmethod
     def generate(bits, progress_func=None):
+        """
+        Not implemented in RSACert because a certificate must be signed by a CA and therefore loaded from some
+        pre-existing data
+        """
+        raise Exception('Not implemented in RSACert')
+
+    @classmethod
+    def from_private_key_file(cls, filename, password=None):
+        """
+        Not implemented in RSACert because certificates cannot be generated from private key files
+        """
+        raise Exception('Not implemented in RSACert')
+
+    @classmethod
+    def from_private_key(cls, file_obj, password=None):
+        """
+        Not implemented in RSACert because certificates cannot be generated from private key files
+        """
         raise Exception('Not implemented in RSACert')
