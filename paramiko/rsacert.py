@@ -1,16 +1,19 @@
 import base64
+
 from paramiko import util
 from paramiko.message import Message
 from paramiko.rsakey import RSAKey
 from paramiko.ssh_exception import SSHException
 
-class RSACert (RSAKey):
+
+class RSACert(RSAKey):
     """
     Certificate equivalent of RSAKey
     see http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/PROTOCOL.certkeys?rev=1.9&content-type=text/x-cvsweb-markup
     """
 
-    def __init__(self, msg=None, data=None, privkey_filename=None, cert_filename=None, password=None, vals=None, privkey_file_obj=None, cert_file_obj=None):
+    def __init__(self, msg=None, data=None, privkey_filename=None, cert_filename=None, password=None, vals=None,
+                 privkey_file_obj=None, cert_file_obj=None):
         self.nonce = None
         self.n = None
         self.e = None
@@ -44,9 +47,9 @@ class RSACert (RSAKey):
         if (msg is None) and (data is not None):
             msg = Message(data)
         if vals is not None:
-            self.nonce, self.n, self.e, self.serial, self.type, self.key_id, self.valid_principals,\
-                self.valid_after, self.valid_before, self.critical_options, self.extensions,\
-                self.reserved, self.signature_key, self.signature = vals
+            self.nonce, self.n, self.e, self.serial, self.type, self.key_id, self.valid_principals, \
+            self.valid_after, self.valid_before, self.critical_options, self.extensions, \
+            self.reserved, self.signature_key, self.signature = vals
         else:
             if msg is None:
                 raise SSHException('Key object may not be empty')
