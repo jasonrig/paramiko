@@ -115,7 +115,7 @@ class KeyTest (unittest.TestCase):
         self.assertEqual(key, key2)
 
     def test_3_load_rsa_cert(self):
-        cert = RSACert(privkey_filename='test_rsa.key', cert_file_obj=StringIO(PUB_RSA_CERT))
+        cert = RSACert(privkey_filename=test_path('test_rsa.key'), cert_file_obj=StringIO(PUB_RSA_CERT))
         self.assertEqual('ssh-rsa-cert-v01@openssh.com', cert.get_name())
         self.assertEqual(PUB_RSA.split()[1], cert.get_public_key().get_base64())
         self.assertTrue(cert.verify_certificate_signature())
