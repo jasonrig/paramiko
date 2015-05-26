@@ -37,6 +37,7 @@ from paramiko.ssh_exception import SSHException, PasswordRequiredException, \
     AuthenticationException, ProxyCommandFailure
 from paramiko.server import ServerInterface, SubsystemHandler, InteractiveQuery
 from paramiko.rsakey import RSAKey
+from paramiko.rsacert import RSACert
 from paramiko.dsskey import DSSKey
 from paramiko.ecdsakey import ECDSAKey
 from paramiko.sftp import SFTPError, BaseSFTP
