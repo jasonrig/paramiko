@@ -102,7 +102,7 @@ class RSACert(RSAKey):
         return m
 
     def asbytes(self):
-        return self._message_with_signature.asbytes()
+        return self._message_with_signature().asbytes()
 
     def verify_certificate_signature(self):
         return RSAKey(data=self.signature_key).verify_ssh_sig(self._message_without_signature().asbytes(),
